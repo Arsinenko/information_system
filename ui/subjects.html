@@ -1,0 +1,148 @@
+<html>
+<head>
+    <title>Subjects - College Attendance Records</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            margin: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2d3748;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar h2 {
+            color: #63b3ed;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #4a5568;
+            border: none;
+            color: #e2e8f0;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        .sidebar button:hover {
+            background-color: #63b3ed;
+            color: #1a202c;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 40px;
+        }
+        .content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #63b3ed;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .content th, .content td {
+            padding: 12px 15px;
+            border: 1px solid #4a5568;
+            text-align: left;
+        }
+        .content th {
+            background-color: #2d3748;
+            color: #63b3ed;
+        }
+        .content tr:nth-child(even) {
+            background-color: #2d3748;
+        }
+        .content button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #4a5568;
+            border: none;
+            color: #e2e8f0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .content button:hover {
+            background-color: #63b3ed;
+            color: #1a202c;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <button><i class="fas fa-users"></i> All Students</button>
+        <button><i class="fas fa-layer-group"></i> Groups</button>
+        <button><i class="fas fa-book"></i> Subjects</button>
+    </div>
+    <div class="content">
+        <h1>Subjects</h1>
+        <div class="flex space-x-4 mb-4">
+            <button onclick="sortTable('name')">Sort by Name</button>
+            <button onclick="sortTable('omissions')">Sort by Omissions</button>
+        </div>
+        <table id="subjectsTable">
+            <thead>
+                <tr>
+                    <th>Name of Subject</th>
+                    <th>Percentage of Omissions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const subjects = [
+            { name: 'Mathematics', omissions: '5%' },
+            { name: 'Physics', omissions: '3%' },
+            { name: 'Chemistry', omissions: '4%' },
+            { name: 'Biology', omissions: '2%' },
+            { name: 'History', omissions: '6%' },
+            { name: 'Geography', omissions: '1%' },
+            { name: 'English', omissions: '3%' },
+            { name: 'Computer Science', omissions: '2%' }
+        ];
+
+        function populateTable() {
+            const tableBody = document.querySelector('#subjectsTable tbody');
+            tableBody.innerHTML = '';
+            subjects.forEach(subject => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${subject.name}</td>
+                    <td>${subject.omissions}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function sortTable(criteria) {
+            if (criteria === 'name') {
+                subjects.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (criteria === 'omissions') {
+                subjects.sort((a, b) => parseFloat(a.omissions) - parseFloat(b.omissions));
+            }
+            populateTable();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTable();
+        });
+    </script>
+</body>
+</html>

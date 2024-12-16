@@ -4,7 +4,10 @@ from pydantic import BaseModel
 ### Create models
 class CreateGroupModel(BaseModel):
     group_name: str
-    
+    size: int = 0
+
+class CreateGroups(BaseModel):
+    groups: list[CreateGroupModel]
 
 
 class CreateStudentModel(BaseModel):

@@ -35,13 +35,18 @@ async def shutdown_event():
 
 #### API v1
 ### Get requests
-@app.get("/api/v1/get_students")
+@app.get("/api/v1/get_students") # verified
 async def get_students():
-    return await Student.all()
+    return await Student.all().values_list() 
 
-@app.get("/api/v1/get_groups")
+@app.get("/api/v1/get_teachers") # verified
+async def get_teachers():
+    return await Teacher.all().values_list()
+    
+
+@app.get("/api/v1/get_groups") # verified
 async def get_groups():
-    return await Group.all().values("id", "group_name", "size")
+    return await Group.all().values()
 
 
 @app.get("/api/v1/get_subjects")
@@ -62,7 +67,7 @@ async def create_user(item: CreateStudentModel):
     
     try:
         await Student.create(first_name=item.first_name, middle_name=item.middle_name, last_name=item.last_name,
-                             group_id=group)
+                             group=group)
         group.size += 1
         await group.save()
         return JSONResponse(content={"message": "Success"}, status_code=200)
@@ -77,7 +82,18 @@ async def create_group(item: CreateGroupModel):
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})
-
+@app.post("/api/v1/create_groups")
+async def create_groups(item: CreateGroups):
+    try:
+        for elem in item.groups:
+            # Check if the group name already exists
+            existing_group = await Group.filter(group_name=elem.group_name).first()
+            if existing_group:
+                return JSONResponse(content={"message": f"Group '{elem.group_name}' already exists."}, status_code=400)
+            await Group.create(group_name=elem.group_name, size=elem.size)
+        return JSONResponse(content={"message": "Success. Groups were created"}, status_code=200)
+    except Exception as ex:
+        return JSONResponse(content={"message": str(ex)}, status_code=500)
 
 @app.post("/api/v1/create_subject")
 async def create_subject(item: CreateSubjectModel):

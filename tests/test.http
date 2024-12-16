@@ -8,6 +8,27 @@ Content-Type: application/json
 }
 ###
 
+### Create groups
+POST http://localhost:8000/api/v1/create_groups
+Content-Type: application/json
+
+{
+  "groups": [
+    {
+      "group_name": "group2",
+      "size": 0
+    },
+    {
+      "group_name": "group3",
+      "size": 0
+    },
+    {
+      "group_name": "group4",
+      "size": 0
+    }
+  ]
+}
+
 POST http://localhost:8000/api/v1/create_student
 Content-Type: application/json
 
@@ -19,6 +40,20 @@ Content-Type: application/json
 }
 ###
 
+### Create Student
+POST http://localhost:8000/api/v1/create_teacher
+Content-Type: application/json
+
+{
+  "first_name": "Ivan",
+  "middle_name": "Ivanovich",
+  "last_name": "Ivanov"
+}
+
+### Create Subject
+
+POST http://localhost:8000/api/v1/create_subject
+
 ### Get Students
 
 GET http://localhost:8000/api/v1/get_students
@@ -26,3 +61,9 @@ GET http://localhost:8000/api/v1/get_students
 ### Get groups
 
 GET http://localhost:8000/api/v1/get_groups
+
+### Get teachers
+GET http://localhost:8000/api/v1/get_teachers
+
+###
+

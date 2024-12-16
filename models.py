@@ -37,7 +37,7 @@ class Student(Model):
     first_name = fields.CharField(max_length=20)
     middle_name = fields.CharField(max_length=20)
     last_name = fields.CharField(max_length=20)
-    group_id = fields.ForeignKeyField(model_name="models.Group", related_name="Student_group", on_delete=fields.CASCADE)
+    group = fields.ForeignKeyField(model_name="models.Group", related_name="Student_group", on_delete=fields.CASCADE)
 
     class Meta:
         table = "students"

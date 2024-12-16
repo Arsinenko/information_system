@@ -4,7 +4,7 @@ from pydantic import BaseModel
 ### Create models
 class CreateGroupModel(BaseModel):
     group_name: str
-    size: int
+    
 
 
 class CreateStudentModel(BaseModel):

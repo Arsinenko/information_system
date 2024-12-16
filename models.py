@@ -5,7 +5,7 @@ from tortoise import fields
 class Group(Model):
     id = fields.IntField(pk=True)
     group_name = fields.CharField(max_length=20, unique=True)
-    size = fields.IntField()
+    size = fields.IntField(default=0)
 
     class Meta:
         table = "groups"

@@ -59,9 +59,12 @@ async def get_attendance_records():
 @app.post("/api/v1/create_student")
 async def create_user(item: CreateStudentModel):
     group = await Group.get(id=item.group_id)
+    
     try:
         await Student.create(first_name=item.first_name, middle_name=item.middle_name, last_name=item.last_name,
                              group_id=group)
+        group.size += 1
+        await group.save()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})
@@ -70,7 +73,7 @@ async def create_user(item: CreateStudentModel):
 @app.post("/api/v1/create_group")
 async def create_group(item: CreateGroupModel):
     try:
-        await Group.create(group_name=item.group_name, size=item.size)
+        await Group.create(group_name=item.group_name)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})

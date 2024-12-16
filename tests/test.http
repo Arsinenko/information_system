@@ -4,8 +4,7 @@ POST http://localhost:8000/api/v1/create_group
 Content-Type: application/json
 
 {
-  "group_name": "group1",
-  "size": 16
+  "group_name": "group1"
 }
 ###
 
@@ -18,3 +17,12 @@ Content-Type: application/json
   "last_name": "Arsinenko",
   "group_id": 1
 }
+###
+
+### Get Students
+
+GET http://localhost:8000/api/v1/get_students
+
+### Get groups
+
+GET http://localhost:8000/api/v1/get_groups

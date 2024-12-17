@@ -50,12 +50,12 @@ async def get_groups():
     return await Group.all().values()
 
 
-@app.get("/api/v1/get_subjects") # verified
+@app.get("/api/v1/get_subjects")  # verified
 async def get_subjects():
     return await Subject.all()
 
 
-@app.get("/api/v1/get_attendance_records") #verified
+@app.get("/api/v1/get_attendance_records")  #verified
 async def get_attendance_records():
     return await Attendance.all()
 
@@ -72,7 +72,7 @@ async def create_user(item: CreateStudentModel):
         await group.save()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 # @app.post("/api/v1/create_students") not work
@@ -95,7 +95,7 @@ async def create_group(item: CreateGroupModel):
         await Group.create(group_name=item.group_name)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.post("/api/v1/create_groups")  # verified
@@ -119,7 +119,7 @@ async def create_subject(item: CreateSubjectModel):
         await Subject.create(teacher=teacher, subject_name=item.subject_name, hours=item.hours)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.post("/api/v1/create_attendance_record")  #verified
@@ -127,10 +127,11 @@ async def create_attendance_record(item: CreateAttendance):
     try:
         student = await Student.get(id=item.student_id)
         subject = await Subject.get(id=item.subject_id)
-        await Attendance.create(subject=subject, student=student, date=item.date, pair_number=item.pair_number, status=item.status)
+        await Attendance.create(subject=subject, student=student, date=item.date, pair_number=item.pair_number,
+                                status=item.status)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.post("/api/v1/create_teacher")  # verified
@@ -139,7 +140,7 @@ async def create_teacher(item: CreateTeacherModel):
         await Teacher.create(first_name=item.first_name, middle_name=item.middle_name, last_name=item.last_name)
         return JSONResponse(content={"message": "Success. Teacher created!"})
     except Exception as ex:
-        return JSONResponse(content={"error": ex}, status_code=500)
+        return JSONResponse(content={"error": f"{ex}"}, status_code=500)
 
 
 ### Delete requests
@@ -150,7 +151,7 @@ async def delete_student(item: DeleteEntityModel):
         await Student.filter(id=item.id).delete()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.delete("/api/v1/delete_group")  #verified
@@ -159,7 +160,7 @@ async def delete_group(item: DeleteEntityModel):
         await Group.filter(id=item.id).delete()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.delete("/api/v1/delete_subject")  #verified
@@ -168,7 +169,7 @@ async def delete_subject(item: DeleteEntityModel):
         await Subject.filter(id=item.id).delete()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.delete("/api/v1/delete_teacher")  #verified
@@ -177,7 +178,7 @@ async def delete_teacher(item: DeleteEntityModel):
         await Teacher.filter(id=item.id).delete()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
 @app.delete("/api/v1/delete_attendance_record")  #verified
@@ -186,10 +187,78 @@ async def delete_attendance_record(item: DeleteEntityModel):
         await Attendance.filter(id=item.id).delete()
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
-        return JSONResponse(content={"message": ex})
+        return JSONResponse(content={"message": f"{ex}"})
 
 
-#### Pages verified
+#### Update records
+
+@app.post("/api/v1/update_student")
+async def update_student(item: UpdateStudent):
+    try:
+        new_group = await Group.get(id=item.group_id)
+        student = await Student.get(id=item.id)
+
+        student.first_name = item.first_name
+        student.middle_name = item.middle_name
+        student.last_name = item.last_name
+        student.group = new_group
+
+        await student.save()
+        return JSONResponse(content={"message": "Success"}, status_code=200)
+    except Exception as ex:
+        return JSONResponse(content={"message": f"{ex}"})
+
+
+@app.post("/api/v1/update_teacher")
+async def update_teacher(item: UpdateTeacher):
+    try:
+        teacher = await Teacher.get(id=item.id)
+        teacher.first_name = item.first_name
+        teacher.middle_name = item.middle_name
+        teacher.last_name = item.last_name
+
+        await teacher.save()
+        return JSONResponse(content={"message": "Success"})
+    except Exception as ex:
+        return JSONResponse(content={"message": f"{ex}"})
+
+
+@app.post("/api/v1/update_subject")
+async def update_subject(item: UpdateSubject):
+    try:
+        teacher = await Teacher.get(id=item.id_teacher)
+        subject = await Subject.get(id=item.id)
+
+        subject.teacher = teacher
+        subject.subject_name = item.subject_name
+        subject.hours = item.hours
+
+        await subject.save()
+        return JSONResponse(content={"message": "Success"})
+    except Exception as ex:
+        return JSONResponse(content={"message": f"{ex}"})
+
+
+@app.post("/api/v1/update_attendance_record")
+async def update_attendance_record(item: UpdateAttendance):
+    try:
+        new_subject = await Subject.get(id=item.subject_id)
+        new_student = await Student.get(id=item.student_id)
+        attendance_record = await Attendance.get(id=item.id)
+
+        attendance_record.subject = new_subject
+        attendance_record.student = new_student
+        attendance_record.date = item.date
+        attendance_record.pair_number = item.pair_number
+        attendance_record.status = item.status
+
+        await attendance_record.save()
+        return JSONResponse(content={"message": "Success"})
+    except Exception as ex:
+        return JSONResponse(content={"message": f"{ex}"})
+
+    #### Pages verified
+
 
 @app.get("/")  # verified
 async def index():

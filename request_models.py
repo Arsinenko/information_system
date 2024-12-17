@@ -43,6 +43,38 @@ class CreateAttendance(BaseModel):
     status: str
 
 
+### Update models
+class UpdateStudent(BaseModel):
+    id: int
+    first_name: str
+    middle_name: str
+    last_name: str
+    group_id: int
+
+
+class UpdateTeacher(BaseModel):
+    id: int
+    first_name: str
+    middle_name: str
+    last_name: str
+
+
+class UpdateSubject(BaseModel):
+    id: int
+    id_teacher: int
+    subject_name: str
+    hours: int
+
+
+class UpdateAttendance(BaseModel):
+    id: int
+    subject_id: int
+    student_id: int
+    date: dt.datetime
+    pair_number: int
+    status: str
+
+
 ### Delete models
 class DeleteEntityModel(BaseModel):
     id: int

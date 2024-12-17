@@ -1,45 +1,43 @@
 # API Documentation
 
 ## Base URL
-```
-http://localhost:8000/api/v1
-```
+`http://localhost:8000`
 
 ## Endpoints
 
-### 1. Get Requests
+### GET Requests
 
 - **Get Students**
-  - **Endpoint:** `/get_students`
-  - **Method:** GET
+  - **URL:** `/api/v1/get_students`
+  - **Method:** `GET`
   - **Response:** List of students.
 
 - **Get Teachers**
-  - **Endpoint:** `/get_teachers`
-  - **Method:** GET
+  - **URL:** `/api/v1/get_teachers`
+  - **Method:** `GET`
   - **Response:** List of teachers.
 
 - **Get Groups**
-  - **Endpoint:** `/get_groups`
-  - **Method:** GET
+  - **URL:** `/api/v1/get_groups`
+  - **Method:** `GET`
   - **Response:** List of groups.
 
 - **Get Subjects**
-  - **Endpoint:** `/get_subjects`
-  - **Method:** GET
-  - **Response:** List of subjects with `id` and `subject_name`.
+  - **URL:** `/api/v1/get_subjects`
+  - **Method:** `GET`
+  - **Response:** List of subjects.
 
 - **Get Attendance Records**
-  - **Endpoint:** `/get_attendance_records`
-  - **Method:** GET
-  - **Response:** List of attendance records with `id`, `subject_id`, `student_id`, and `status`.
+  - **URL:** `/api/v1/get_attendance_records`
+  - **Method:** `GET`
+  - **Response:** List of attendance records.
 
-### 2. Create Requests
+### POST Requests
 
 - **Create Student**
-  - **Endpoint:** `/create_student`
-  - **Method:** POST
-  - **Request Body:**
+  - **URL:** `/api/v1/create_student`
+  - **Method:** `POST`
+  - **Request Body:** 
     ```json
     {
       "first_name": "string",
@@ -48,132 +46,172 @@ http://localhost:8000/api/v1
       "group_id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
 - **Create Group**
-  - **Endpoint:** `/create_group`
-  - **Method:** POST
-  - **Request Body:**
+  - **URL:** `/api/v1/create_group`
+  - **Method:** `POST`
+  - **Request Body:** 
     ```json
     {
-      "group_name": "string",
-      "size": "integer"
+      "group_name": "string"
     }
     ```
-  - **Response:** Success message or error message.
-
-- **Create Groups**
-  - **Endpoint:** `/create_groups`
-  - **Method:** POST
-  - **Request Body:**
+  - **Response:** 
     ```json
     {
-      "groups": [
-        {
-          "group_name": "string",
-          "size": "integer"
-        }
-      ]
+      "message": "Success"
     }
     ```
-  - **Response:** Success message or error message.
 
 - **Create Subject**
-  - **Endpoint:** `/create_subject`
-  - **Method:** POST
-  - **Request Body:**
+  - **URL:** `/api/v1/create_subject`
+  - **Method:** `POST`
+  - **Request Body:** 
     ```json
     {
-      "id_teacher": "integer",
       "subject_name": "string",
-      "hours": "integer"
+      "hours": "integer",
+      "id_teacher": "integer"
     }
     ```
-  - **Response:** Success message or error message.
-
-- **Create Attendance Record**
-  - **Endpoint:** `/create_attendance_record`
-  - **Method:** POST
-  - **Request Body:**
+  - **Response:** 
     ```json
     {
-      "subject_id": "integer",
+      "message": "Success"
+    }
+    ```
+
+- **Create Attendance Record**
+  - **URL:** `/api/v1/create_attendance_record`
+  - **Method:** `POST`
+  - **Request Body:** 
+    ```json
+    {
       "student_id": "integer",
+      "subject_id": "integer",
+      "date": "string",
+      "pair_number": "integer",
       "status": "string"
     }
     ```
-  - **Response:** Success message or error message.
-
-- **Create Teacher**
-  - **Endpoint:** `/create_teacher`
-  - **Method:** POST
-  - **Request Body:**
+  - **Response:** 
     ```json
     {
-      "first_name": "string",
-      "middle_name": "string",
-      "last_name": "string"
+      "message": "Success"
     }
     ```
-  - **Response:** Success message or error message.
 
-### 3. Delete Requests
+### DELETE Requests
 
 - **Delete Student**
-  - **Endpoint:** `/delete_student`
-  - **Method:** DELETE
-  - **Request Body:**
+  - **URL:** `/api/v1/delete_student`
+  - **Method:** `DELETE`
+  - **Request Body:** 
     ```json
     {
       "id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
 - **Delete Group**
-  - **Endpoint:** `/delete_group`
-  - **Method:** DELETE
-  - **Request Body:**
+  - **URL:** `/api/v1/delete_group`
+  - **Method:** `DELETE`
+  - **Request Body:** 
     ```json
     {
       "id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
 - **Delete Subject**
-  - **Endpoint:** `/delete_subject`
-  - **Method:** DELETE
-  - **Request Body:**
+  - **URL:** `/api/v1/delete_subject`
+  - **Method:** `DELETE`
+  - **Request Body:** 
     ```json
     {
       "id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
 - **Delete Teacher**
-  - **Endpoint:** `/delete_teacher`
-  - **Method:** DELETE
-  - **Request Body:**
+  - **URL:** `/api/v1/delete_teacher`
+  - **Method:** `DELETE`
+  - **Request Body:** 
     ```json
     {
       "id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
 - **Delete Attendance Record**
-  - **Endpoint:** `/delete_attendance_record`
-  - **Method:** DELETE
-  - **Request Body:**
+  - **URL:** `/api/v1/delete_attendance_record`
+  - **Method:** `DELETE`
+  - **Request Body:** 
     ```json
     {
       "id": "integer"
     }
     ```
-  - **Response:** Success message or error message.
+  - **Response:** 
+    ```json
+    {
+      "message": "Success"
+    }
+    ```
 
-### Additional Information
-- **Error Handling:** Each endpoint returns a JSON response with a message indicating success or failure.
-- **Authentication:** Currently, there is no authentication implemented in the API.
+## Pages
+
+- **Index Page**
+  - **URL:** `/`
+  - **Method:** `GET`
+  - **Response:** HTML page.
+
+- **All Students Page**
+  - **URL:** `/students`
+  - **Method:** `GET`
+  - **Response:** HTML page.
+
+- **Groups Page**
+  - **URL:** `/groups`
+  - **Method:** `GET`
+  - **Response:** HTML page.
+
+- **Subjects Page**
+  - **URL:** `/subjects`
+  - **Method:** `GET`
+  - **Response:** HTML page.
+
+- **Admin Page**
+  - **URL:** `/admin_page`
+  - **Method:** `GET`
+  - **Response:** HTML page.

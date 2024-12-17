@@ -1,33 +1,27 @@
 
-### Create group
-POST http://localhost:8000/api/v1/create_group
-Content-Type: application/json
-
-{
-  "group_name": "group1"
-}
-###
-
-### Create groups
+### Create multiple groups
 POST http://localhost:8000/api/v1/create_groups
 Content-Type: application/json
 
 {
   "groups": [
     {
-      "group_name": "group2",
-      "size": 0
+      "group_name": "Group A"
+      
     },
     {
-      "group_name": "group3",
-      "size": 0
+      "group_name": "Group B"
+      
     },
     {
-      "group_name": "group4",
-      "size": 0
+      "group_name": "Group C"
+      
     }
   ]
 }
+### 
+
+
 
 POST http://localhost:8000/api/v1/create_student
 Content-Type: application/json
@@ -40,7 +34,18 @@ Content-Type: application/json
 }
 ###
 
-### Create Student
+### Create subject
+
+POST http://localhost:8000/api/v1/create_subject
+Content-Type: application/json
+
+{
+  "id_teacher": 1,
+  "subject_name" : "subject1",
+  "hours": 100
+}
+
+### Create Teacher
 POST http://localhost:8000/api/v1/create_teacher
 Content-Type: application/json
 
@@ -49,10 +54,19 @@ Content-Type: application/json
   "middle_name": "Ivanovich",
   "last_name": "Ivanov"
 }
+###
+### Create attendance record 
+POST http://localhost:8000/api/v1/create_attendance_record
+Content-Type: application/json
 
-### Create Subject
+{
+    "subject_id": 1,
+    "student_id": 1,
+    "date": "2023-10-01T10:00:00",
+    "pair_number": 1,
+    "status": "present"
+}
 
-POST http://localhost:8000/api/v1/create_subject
 
 ### Get Students
 
@@ -65,5 +79,34 @@ GET http://localhost:8000/api/v1/get_groups
 ### Get teachers
 GET http://localhost:8000/api/v1/get_teachers
 
-###
+### Get subjects
+GET http://localhost:8000/api/v1/get_subjects
 
+### Get attendance records
+GET http://localhost:8000/api/v1/get_attendance_records
+
+#### Delete requests
+
+### Delete student
+DELETE http://localhost:8000/api/v1/delete_student
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Delete group
+DELETE http://localhost:8000/api/v1/delete_group
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Delete subject
+DELETE http://localhost:8000/api/v1/delete_subject
+Content-Type: application/json
+
+{
+  "id": 1
+}

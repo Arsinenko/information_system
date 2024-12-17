@@ -35,36 +35,36 @@ async def shutdown_event():
 
 #### API v1
 ### Get requests
-@app.get("/api/v1/get_students") # verified
+@app.get("/api/v1/get_students")  # verified
 async def get_students():
-    return await Student.all().values_list() 
+    return await Student.all().values_list()
 
-@app.get("/api/v1/get_teachers") # verified
+
+@app.get("/api/v1/get_teachers")  # verified
 async def get_teachers():
     return await Teacher.all().values_list()
-    
 
-@app.get("/api/v1/get_groups") # verified
+
+@app.get("/api/v1/get_groups")  # verified
 async def get_groups():
     return await Group.all().values()
 
 
-@app.get("/api/v1/get_subjects")
+@app.get("/api/v1/get_subjects") # verified
 async def get_subjects():
-    return await Subject.all().values("id", "subject_name")
+    return await Subject.all()
 
 
-@app.get("/api/v1/get_attendance_records")
+@app.get("/api/v1/get_attendance_records") #verified
 async def get_attendance_records():
-    return await Attendance.all().values("id", "subject_id", "student_id", "status")
+    return await Attendance.all()
 
 
 ### Create requests
 
-@app.post("/api/v1/create_student")
+@app.post("/api/v1/create_student")  #verified
 async def create_user(item: CreateStudentModel):
     group = await Group.get(id=item.group_id)
-    
     try:
         await Student.create(first_name=item.first_name, middle_name=item.middle_name, last_name=item.last_name,
                              group=group)
@@ -75,14 +75,30 @@ async def create_user(item: CreateStudentModel):
         return JSONResponse(content={"message": ex})
 
 
-@app.post("/api/v1/create_group")
+# @app.post("/api/v1/create_students") not work
+# async def create_students(item: CreateStudents):
+#     try: 
+#         for elem in item.students:
+#             group = await Group.get(id=elem.group_id)
+#             await Student.create(first_name=elem.first_name, middle_name=elem.middle_name, last_name=elem.last_name)
+
+#             group.size += 1
+#             await group.save()
+#             return JSONResponse(content={"message": "Success. Students"}, status_code=200)
+#     except Exception as ex:
+#         return JSONResponse(content={"message": ex})
+
+
+@app.post("/api/v1/create_group")  #verified
 async def create_group(item: CreateGroupModel):
     try:
         await Group.create(group_name=item.group_name)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})
-@app.post("/api/v1/create_groups")
+
+
+@app.post("/api/v1/create_groups")  # verified
 async def create_groups(item: CreateGroups):
     try:
         for elem in item.groups:
@@ -95,24 +111,29 @@ async def create_groups(item: CreateGroups):
     except Exception as ex:
         return JSONResponse(content={"message": str(ex)}, status_code=500)
 
-@app.post("/api/v1/create_subject")
+
+@app.post("/api/v1/create_subject")  # verified
 async def create_subject(item: CreateSubjectModel):
     try:
-        await Student.create(subject_name=item.subject_name)
+        teacher = await Teacher.get(id=item.id_teacher)
+        await Subject.create(teacher=teacher, subject_name=item.subject_name, hours=item.hours)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})
 
 
-@app.post("/api/v1/create_attendance_record")
+@app.post("/api/v1/create_attendance_record")  #verified
 async def create_attendance_record(item: CreateAttendance):
     try:
-        await Attendance.create(subject_id=item.subject_id, student_id=item.student_id, status=item.status)
+        student = await Student.get(id=item.student_id)
+        subject = await Subject.get(id=item.subject_id)
+        await Attendance.create(subject=subject, student=student, date=item.date, pair_number=item.pair_number, status=item.status)
         return JSONResponse(content={"message": "Success"}, status_code=200)
     except Exception as ex:
         return JSONResponse(content={"message": ex})
 
-@app.post("/api/v1/create_teacher")
+
+@app.post("/api/v1/create_teacher")  # verified
 async def create_teacher(item: CreateTeacherModel):
     try:
         await Teacher.create(first_name=item.first_name, middle_name=item.middle_name, last_name=item.last_name)
@@ -120,9 +141,10 @@ async def create_teacher(item: CreateTeacherModel):
     except Exception as ex:
         return JSONResponse(content={"error": ex}, status_code=500)
 
+
 ### Delete requests
 
-@app.delete("/api/v1/delete_student")
+@app.delete("/api/v1/delete_student")  # verified
 async def delete_student(item: DeleteEntityModel):
     try:
         await Student.filter(id=item.id).delete()
@@ -131,7 +153,7 @@ async def delete_student(item: DeleteEntityModel):
         return JSONResponse(content={"message": ex})
 
 
-@app.delete("/api/v1/delete_group")
+@app.delete("/api/v1/delete_group")  #verified
 async def delete_group(item: DeleteEntityModel):
     try:
         await Group.filter(id=item.id).delete()
@@ -140,7 +162,7 @@ async def delete_group(item: DeleteEntityModel):
         return JSONResponse(content={"message": ex})
 
 
-@app.delete("/api/v1/delete_subject")
+@app.delete("/api/v1/delete_subject")  #verified
 async def delete_subject(item: DeleteEntityModel):
     try:
         await Subject.filter(id=item.id).delete()
@@ -149,7 +171,7 @@ async def delete_subject(item: DeleteEntityModel):
         return JSONResponse(content={"message": ex})
 
 
-@app.delete("/api/v1/delete_teacher")
+@app.delete("/api/v1/delete_teacher")  #verified
 async def delete_teacher(item: DeleteEntityModel):
     try:
         await Teacher.filter(id=item.id).delete()
@@ -158,7 +180,7 @@ async def delete_teacher(item: DeleteEntityModel):
         return JSONResponse(content={"message": ex})
 
 
-@app.delete("/api/v1/delete_attendance_record")
+@app.delete("/api/v1/delete_attendance_record")  #verified
 async def delete_attendance_record(item: DeleteEntityModel):
     try:
         await Attendance.filter(id=item.id).delete()
@@ -167,32 +189,32 @@ async def delete_attendance_record(item: DeleteEntityModel):
         return JSONResponse(content={"message": ex})
 
 
-#### Pages
+#### Pages verified
 
-@app.get("/")
+@app.get("/")  # verified
 async def index():
     return FileResponse(path="ui/index.html", media_type="text/html")
 
 
-@app.get("/students")
+@app.get("/students")  #verified
 async def all_students():
     return FileResponse(path="ui/all_students_page.html", media_type="text/html")
 
 
-@app.get("/groups")
+@app.get("/groups")  # verified
 async def groups():
     return FileResponse(path="ui/groups.html", media_type="text/html")
 
 
-@app.get("/subjects")
+@app.get("/subjects")  # verified
 async def subjects():
     return FileResponse(path="ui/subjects.html", media_type="text/html")
 
 
-@app.get("/admin_page")
+@app.get("/admin_page")  # verified
 async def admin_page():
     return FileResponse(path="ui/admin_page.html", media_type="text/html")
 
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, port=8000)
+    uvicorn.run(app=app, host="localhost", port=8000)

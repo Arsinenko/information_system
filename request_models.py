@@ -1,10 +1,12 @@
 from pydantic import BaseModel
+import datetime as dt
 
 
 ### Create models
 class CreateGroupModel(BaseModel):
     group_name: str
     size: int = 0
+
 
 class CreateGroups(BaseModel):
     groups: list[CreateGroupModel]
@@ -15,6 +17,10 @@ class CreateStudentModel(BaseModel):
     middle_name: str
     last_name: str
     group_id: int
+
+
+class CreateStudents(BaseModel):
+    students: list[CreateStudentModel]
 
 
 class CreateSubjectModel(BaseModel):
@@ -32,6 +38,8 @@ class CreateTeacherModel(BaseModel):
 class CreateAttendance(BaseModel):
     subject_id: int
     student_id: int
+    date: dt.datetime
+    pair_number: int
     status: str
 
 

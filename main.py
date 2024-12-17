@@ -284,6 +284,19 @@ async def subjects():
 async def admin_page():
     return FileResponse(path="ui/admin_page.html", media_type="text/html")
 
+@app.get("/add_student")
+async def add_student_page():
+    return FileResponse(path="ui/create_student.html", media_type="text/html")
+
+@app.get("/add_group")
+async def add_group_page():
+    return FileResponse(path="ui/create_group.html", media_type="text/html")
+@app.get("/add_subject")
+async def add_subject_page():
+    return FileResponse(path="ui/create_subject.html", media_type="text/html")
+@app.get("/add_teacher")
+async def add_teacher_page():
+    return FileResponse(path="ui/create_teacher.html", media_type="text/html")
 
 if __name__ == "__main__":
     uvicorn.run(app=app, host="localhost", port=8000)

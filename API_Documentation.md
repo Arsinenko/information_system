@@ -1,41 +1,43 @@
 # API Documentation
 
 ## Base URL
-`http://localhost:8000`
+```
+http://localhost:8000/api/v1
+```
 
 ## Endpoints
 
-### GET Requests
+### Get Requests
 
-- **Get Students**
-  - **URL:** `/api/v1/get_students`
+- **Get All Students**
+  - **Endpoint:** `/get_students`
   - **Method:** `GET`
   - **Response:** List of students.
 
-- **Get Teachers**
-  - **URL:** `/api/v1/get_teachers`
+- **Get All Teachers**
+  - **Endpoint:** `/get_teachers`
   - **Method:** `GET`
   - **Response:** List of teachers.
 
-- **Get Groups**
-  - **URL:** `/api/v1/get_groups`
+- **Get All Groups**
+  - **Endpoint:** `/get_groups`
   - **Method:** `GET`
   - **Response:** List of groups.
 
-- **Get Subjects**
-  - **URL:** `/api/v1/get_subjects`
+- **Get All Subjects**
+  - **Endpoint:** `/get_subjects`
   - **Method:** `GET`
   - **Response:** List of subjects.
 
-- **Get Attendance Records**
-  - **URL:** `/api/v1/get_attendance_records`
+- **Get All Attendance Records**
+  - **Endpoint:** `/get_attendance_records`
   - **Method:** `GET`
   - **Response:** List of attendance records.
 
-### POST Requests
+### Create Requests
 
 - **Create Student**
-  - **URL:** `/api/v1/create_student`
+  - **Endpoint:** `/create_student`
   - **Method:** `POST`
   - **Request Body:** 
     ```json
@@ -46,15 +48,10 @@
       "group_id": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Create Group**
-  - **URL:** `/api/v1/create_group`
+  - **Endpoint:** `/create_group`
   - **Method:** `POST`
   - **Request Body:** 
     ```json
@@ -62,55 +59,53 @@
       "group_name": "string"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Create Subject**
-  - **URL:** `/api/v1/create_subject`
+  - **Endpoint:** `/create_subject`
   - **Method:** `POST`
   - **Request Body:** 
     ```json
     {
+      "id_teacher": "integer",
       "subject_name": "string",
-      "hours": "integer",
-      "id_teacher": "integer"
+      "hours": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Create Attendance Record**
-  - **URL:** `/api/v1/create_attendance_record`
+  - **Endpoint:** `/create_attendance_record`
   - **Method:** `POST`
   - **Request Body:** 
     ```json
     {
       "student_id": "integer",
       "subject_id": "integer",
-      "date": "string",
+      "date": "date",
       "pair_number": "integer",
       "status": "string"
     }
     ```
-  - **Response:** 
+  - **Response:** Success message.
+
+- **Create Teacher**
+  - **Endpoint:** `/create_teacher`
+  - **Method:** `POST`
+  - **Request Body:** 
     ```json
     {
-      "message": "Success"
+      "first_name": "string",
+      "middle_name": "string",
+      "last_name": "string"
     }
     ```
+  - **Response:** Success message.
 
-### DELETE Requests
+### Delete Requests
 
 - **Delete Student**
-  - **URL:** `/api/v1/delete_student`
+  - **Endpoint:** `/delete_student`
   - **Method:** `DELETE`
   - **Request Body:** 
     ```json
@@ -118,15 +113,10 @@
       "id": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Delete Group**
-  - **URL:** `/api/v1/delete_group`
+  - **Endpoint:** `/delete_group`
   - **Method:** `DELETE`
   - **Request Body:** 
     ```json
@@ -134,15 +124,10 @@
       "id": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Delete Subject**
-  - **URL:** `/api/v1/delete_subject`
+  - **Endpoint:** `/delete_subject`
   - **Method:** `DELETE`
   - **Request Body:** 
     ```json
@@ -150,15 +135,10 @@
       "id": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Delete Teacher**
-  - **URL:** `/api/v1/delete_teacher`
+  - **Endpoint:** `/delete_teacher`
   - **Method:** `DELETE`
   - **Request Body:** 
     ```json
@@ -166,15 +146,10 @@
       "id": "integer"
     }
     ```
-  - **Response:** 
-    ```json
-    {
-      "message": "Success"
-    }
-    ```
+  - **Response:** Success message.
 
 - **Delete Attendance Record**
-  - **URL:** `/api/v1/delete_attendance_record`
+  - **Endpoint:** `/delete_attendance_record`
   - **Method:** `DELETE`
   - **Request Body:** 
     ```json
@@ -182,36 +157,104 @@
       "id": "integer"
     }
     ```
-  - **Response:** 
+  - **Response:** Success message.
+
+### Update Requests
+
+- **Update Student**
+  - **Endpoint:** `/update_student`
+  - **Method:** `POST`
+  - **Request Body:** 
     ```json
     {
-      "message": "Success"
+      "id": "integer",
+      "first_name": "string",
+      "middle_name": "string",
+      "last_name": "string",
+      "group_id": "integer"
     }
     ```
+  - **Response:** Success message.
 
-## Pages
+- **Update Teacher**
+  - **Endpoint:** `/update_teacher`
+  - **Method:** `POST`
+  - **Request Body:** 
+    ```json
+    {
+      "id": "integer",
+      "first_name": "string",
+      "middle_name": "string",
+      "last_name": "string"
+    }
+    ```
+  - **Response:** Success message.
 
-- **Index Page**
-  - **URL:** `/`
-  - **Method:** `GET`
-  - **Response:** HTML page.
+- **Update Subject**
+  - **Endpoint:** `/update_subject`
+  - **Method:** `POST`
+  - **Request Body:** 
+    ```json
+    {
+      "id": "integer",
+      "id_teacher": "integer",
+      "subject_name": "string",
+      "hours": "integer"
+    }
+    ```
+  - **Response:** Success message.
 
-- **All Students Page**
-  - **URL:** `/students`
-  - **Method:** `GET`
-  - **Response:** HTML page.
+- **Update Attendance Record**
+  - **Endpoint:** `/update_attendance_record`
+  - **Method:** `POST`
+  - **Request Body:** 
+    ```json
+    {
+      "id": "integer",
+      "student_id": "integer",
+      "subject_id": "integer",
+      "date": "date",
+      "pair_number": "integer",
+      "status": "string"
+    }
+    ```
+  - **Response:** Success message.
 
-- **Groups Page**
-  - **URL:** `/groups`
-  - **Method:** `GET`
-  - **Response:** HTML page.
+## Data Models
 
-- **Subjects Page**
-  - **URL:** `/subjects`
-  - **Method:** `GET`
-  - **Response:** HTML page.
+- **Group**
+  - **Fields:**
+    - `id`: Integer (Primary Key)
+    - `group_name`: String (Unique)
+    - `size`: Integer (Default: 0)
 
-- **Admin Page**
-  - **URL:** `/admin_page`
-  - **Method:** `GET`
-  - **Response:** HTML page.
+- **Teacher**
+  - **Fields:**
+    - `id`: Integer (Primary Key)
+    - `first_name`: String
+    - `middle_name`: String
+    - `last_name`: String
+
+- **Subject**
+  - **Fields:**
+    - `id`: Integer (Primary Key)
+    - `teacher`: ForeignKey (Teacher)
+    - `subject_name`: String
+    - `hours`: Integer
+
+- **Student**
+  - **Fields:**
+    - `id`: Integer (Primary Key)
+    - `first_name`: String
+    - `middle_name`: String
+    - `last_name`: String
+    - `group`: ForeignKey (Group)
+
+- **Attendance**
+  - **Fields:**
+    - `id`: Integer (Primary Key)
+    - `subject`: ForeignKey (Subject)
+    - `student`: ForeignKey (Student)
+    - `date`: Date
+    - `pair_number`: Integer
+    - `status`: String (Choices: "be", "absent")

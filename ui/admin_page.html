@@ -67,32 +67,17 @@
 <body>
     <div class="sidebar">
         <h2>Navigation</h2>
-        <button><i class="fas fa-users"></i> All Students</button>
-        <button><i class="fas fa-layer-group"></i> Groups</button>
-        <button><i class="fas fa-book"></i> Subjects</button>
-        <button><i class="fas fa-user-cog"></i> Admin</button>
+        <button onclick="window.location.href='/students'"><i class="fas fa-users"></i> All Students</button>
+        <button onclick="window.location.href='/groups'"><i class="fas fa-layer-group"></i> Groups</button>
+        <button onclick="window.location.href='/subjects'"><i class="fas fa-book"></i> Subjects</button>
+        <button onclick="window.location.href='/admin_page'"><i class="fas fa-user-cog"></i> Admin</button>
     </div>
     <div class="content">
         <h1>Admin Panel</h1>
-        <button onclick="createStudent()">Create Student</button>
-        <button onclick="createGroup()">Create Group</button>
-        <button onclick="createSubject()">Create Subject</button>
+        <button onclick="window.location.href='/add_student'">Create Student</button>
+        <button onclick="window.location.href='/add_group'">Create Group</button>
+        <button onclick="window.location.href='/add_subject'">Create Subject</button>
+        <button onclick="window.location.href='/add_teacher'">Create Teacher</button>
     </div>
-    <script>
-        function createStudent() {
-            alert('Create Student button clicked');
-            // Add your logic to create a student
-        }
-
-        function createGroup() {
-            alert('Create Group button clicked');
-            // Add your logic to create a group
-        }
-
-        function createSubject() {
-            alert('Create Subject button clicked');
-            // Add your logic to create a subject
-        }
-    </script>
 </body>
 </html>

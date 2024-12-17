@@ -37,7 +37,7 @@ async def shutdown_event():
 ### Get requests
 @app.get("/api/v1/get_students")  # verified
 async def get_students():
-    return await Student.all().values_list()
+    return await Student.all()
 
 
 @app.get("/api/v1/get_teachers")  # verified
@@ -267,7 +267,7 @@ async def index():
 
 @app.get("/students")  #verified
 async def all_students():
-    return FileResponse(path="ui/all_students_page.html", media_type="text/html")
+    return FileResponse(path="ui/students.html", media_type="text/html")
 
 
 @app.get("/groups")  # verified
@@ -291,12 +291,15 @@ async def add_student_page():
 @app.get("/add_group")
 async def add_group_page():
     return FileResponse(path="ui/create_group.html", media_type="text/html")
+
 @app.get("/add_subject")
 async def add_subject_page():
     return FileResponse(path="ui/create_subject.html", media_type="text/html")
+
 @app.get("/add_teacher")
 async def add_teacher_page():
     return FileResponse(path="ui/create_teacher.html", media_type="text/html")
+    
 
 if __name__ == "__main__":
     uvicorn.run(app=app, host="localhost", port=8000)

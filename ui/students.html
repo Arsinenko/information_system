@@ -84,23 +84,25 @@
 <body>
     <div class="sidebar">
         <h2>Navigation</h2>
-        <button><i class="fas fa-users"></i> All Students</button>
-        <button><i class="fas fa-layer-group"></i> Groups</button>
-        <button><i class="fas fa-book"></i> Subjects</button>
+        <button onclick="window.location.href='/students'"><i class="fas fa-users"></i> All Students</button>
+        <button onclick="window.location.href='/groups'"><i class="fas fa-layer-group"></i> Groups</button>
+        <button onclick="window.location.href='/subjects'"><i class="fas fa-book"></i> Subjects</button>
+        <button onclick="window.location.href='/admin_page'"><i class="fas fa-user-cog"></i> Admin</button>
     </div>
     <div class="content">
         <h1>All Students</h1>
         <div class="flex space-x-4 mb-4">
             <button onclick="sortTable('name')">Sort by Name</button>
-            <button onclick="sortTable('truancy')">Sort by Truancy Rate</button>
+            <button onclick="sortTable('subjects')">Sort by Subjects</button>
             <button onclick="sortTable('group')">Sort by Group</button>
         </div>
         <table id="studentsTable">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Truancy Rate</th>
-                    <th>Group</th>
+                <th>ФИО</th>
+                <th>Группа</th>
+                <th>Количество предметов</th>
+                <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,45 +111,34 @@
         </table>
     </div>
     <script>
-        const students = [
-            { name: 'John Doe', truancy: '5%', group: 'Group A' },
-            { name: 'Jane Smith', truancy: '2%', group: 'Group B' },
-            { name: 'Michael Johnson', truancy: '8%', group: 'Group A' },
-            { name: 'Emily Davis', truancy: '1%', group: 'Group C' },
-            { name: 'William Brown', truancy: '4%', group: 'Group B' },
-            { name: 'Olivia Wilson', truancy: '3%', group: 'Group C' },
-            { name: 'James Taylor', truancy: '6%', group: 'Group A' },
-            { name: 'Isabella Martinez', truancy: '2%', group: 'Group B' },
-            { name: 'Alexander Anderson', truancy: '7%', group: 'Group C' },
-            { name: 'Sophia Thomas', truancy: '1%', group: 'Group A' },
-            { name: 'Daniel Jackson', truancy: '5%', group: 'Group B' },
-            { name: 'Charlotte White', truancy: '3%', group: 'Group C' },
-            { name: 'Matthew Harris', truancy: '4%', group: 'Group A' },
-            { name: 'Ava Martin', truancy: '2%', group: 'Group B' },
-            { name: 'Lucas Thompson', truancy: '6%', group: 'Group C' }
-        ];
+        async function fetchStudents() {
+            const response = await fetch('http://localhost:8000/api/v1/get_students');
+            const students = await response.json();
+            return students;
+        }
 
-        function populateTable() {
+        async function populateTable() {
             const tableBody = document.querySelector('#studentsTable tbody');
             tableBody.innerHTML = '';
-            students.forEach(student => {
+            const students = await fetchStudents();
+            for (const student of students) {
+                const subjectCount = student.subjects ? student.subjects.length : 0; // Assuming subjects is an array
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${student.name}</td>
-                    <td>${student.truancy}</td>
-                    <td>${student.group}</td>
+                    <td>${student["first_name"]} ${student.middle_name} ${student.last_name}</td>
+                    <td>${student.group_id}</td>
+                    <td>${subjectCount}</td>
+                    <td><button onclick="updateStudent(${student.id})"><i class="fas fa-sync"></i></button></td>
                 `;
                 tableBody.appendChild(row);
-            });
+            }
         }
 
         function sortTable(criteria) {
             if (criteria === 'name') {
-                students.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (criteria === 'truancy') {
-                students.sort((a, b) => parseFloat(a.truancy) - parseFloat(b.truancy));
-            } else if (criteria === 'group') {
-                students.sort((a, b) => a.group.localeCompare(b.group));
+                students.sort((a, b) => a.first_name.localeCompare(b.first_name));
+            } else if (criteria === 'subjects') {
+                students.sort((a, b) => (a.subjects ? a.subjects.length : 0) - (b.subjects ? b.subjects.length : 0));
             }
             populateTable();
         }

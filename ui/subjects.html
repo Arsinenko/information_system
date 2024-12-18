@@ -91,15 +91,14 @@
     </div>
     <div class="content">
         <h1>Subjects</h1>
-        <div class="flex space-x-4 mb-4">
-            <button onclick="sortTable('name')">Sort by Name</button>
-            <button onclick="sortTable('omissions')">Sort by Omissions</button>
-        </div>
+        
         <table id="subjectsTable">
             <thead>
                 <tr>
-                    <th>Name of Subject</th>
-                    <th>Percentage of Omissions</th>
+                    <th>Название</th>
+                    <th>ФИО Преподавателя</th>
+                    <th>Количество Часов</th>
+                    <th>Процент Посещений</th>
                 </tr>
             </thead>
             <tbody>
@@ -108,28 +107,26 @@
         </table>
     </div>
     <script>
-        const subjects = [
-            { name: 'Mathematics', omissions: '5%' },
-            { name: 'Physics', omissions: '3%' },
-            { name: 'Chemistry', omissions: '4%' },
-            { name: 'Biology', omissions: '2%' },
-            { name: 'History', omissions: '6%' },
-            { name: 'Geography', omissions: '1%' },
-            { name: 'English', omissions: '3%' },
-            { name: 'Computer Science', omissions: '2%' }
-        ];
+        async function fetchSubjects() {
+            const response = await fetch('http://localhost:8000/api/v1/get_subjects');
+            const subjects = await response.json();
+            return subjects;
+        }
 
-        function populateTable() {
+        function populateTable(subjects) {
             const tableBody = document.querySelector('#subjectsTable tbody');
             tableBody.innerHTML = '';
-            subjects.forEach(subject => {
+            for (const subject of subjects.result) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${subject.name}</td>
-                    <td>${subject.omissions}</td>
+                    <td>${subject.subject_name}</td>
+                    <td>${subject.teacher}</td>
+                    <td>${subject.hours}</td>
+                    <td>${subject.attendance_rate}</td>
+                    <td></td>
                 `;
                 tableBody.appendChild(row);
-            });
+            };
         }
 
         function sortTable(criteria) {
@@ -141,8 +138,11 @@
             populateTable();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            populateTable();
+        let subjects = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            subjects = await fetchSubjects();
+            populateTable(subjects);
         });
     </script>
 </body>

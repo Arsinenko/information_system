@@ -34,6 +34,32 @@ http://localhost:8000/api/v1
   - **Method:** `GET`
   - **Response:** List of attendance records.
 
+- **Get Students with Subjects**
+  - **Endpoint:** `/get_students_with_subjects`
+  - **Method:** `GET`
+  - **Response:** 
+    ```json
+    {
+      "result": [
+        {
+          "id": "integer",
+          "first_name": "string",
+          "middle_name": "string",
+          "last_name": "string",
+          "group": "string",
+          "subjects": [
+            {
+              "id": "integer",
+              "subject_name": "string",
+              "hours": "integer",
+              "teacher": "string"
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
 ### Create Requests
 
 - **Create Student**

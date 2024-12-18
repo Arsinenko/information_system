@@ -51,7 +51,7 @@ class Attendance(Model):
                                         on_delete=fields.CASCADE)
     date = fields.DateField(null=False)
     pair_number = fields.IntField(null=False)
-    status = fields.CharField(max_length=50, choices=["be", "absent"])
+    status = fields.CharField(max_length=50, choices=["present", "absent"])
 
     class Meta:
         table = "attendance"

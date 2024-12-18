@@ -47,17 +47,40 @@ async def get_teachers():
 
 @app.get("/api/v1/get_groups")  # verified
 async def get_groups():
-    return await Group.all().values()
+    return await Group.all()
 
 
 @app.get("/api/v1/get_subjects")  # verified
 async def get_subjects():
-    return await Subject.all()
+    subjects = await Subject.all().prefetch_related("teacher")
+    result = []
+    for subject in subjects:
+        #count absent and present 
+        absent = await Attendance.filter(subject=subject, status="absent").count()
+        present = await Attendance.filter(subject=subject, status="present").count()
+        attendance_rate = (present / (absent + present)) * 100
+        attendance_rate = round(attendance_rate, 2)
+        result.append({
+            "id": subject.id,
+            "subject_name": subject.subject_name,
+            "hours": subject.hours,
+            "teacher": subject.teacher.first_name + " " + subject.teacher.middle_name + " " + subject.teacher.last_name,
+            "absent": absent,
+            "present": present,
+            "attendance_rate": attendance_rate
+        })
+    return JSONResponse(content={"result": result})
+
 
 
 @app.get("/api/v1/get_attendance_records")  #verified
 async def get_attendance_records():
     return await Attendance.all()
+
+# get students with his subjects
+@app.get("/api/v1/get_students_with_subjects")
+async def get_students_with_subjects():
+    students = await Student.all().prefetch_related("attendance")
 
 
 ### Create requests
